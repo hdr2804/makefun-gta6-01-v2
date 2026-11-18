@@ -1,0 +1,79 @@
+/* SOLMAR: Sunset Getaway — interface styling. Golden-hour palette:
+   deep teal night UI over a sun-soaked city, amber accents, big readable type. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #1a2836; font-family: "Trebuchet MS", "Segoe UI", Verdana, sans-serif; color: #f5efe4; }
+#game-canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+body.on-title #hud { display: none; }
+.hud { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+.panel { position: absolute; background: rgba(16, 28, 40, 0.72); border: 1px solid rgba(255, 209, 102, 0.35); border-radius: 10px; padding: 10px 14px; backdrop-filter: blur(2px); }
+#top-left { top: 14px; left: 14px; min-width: 340px; max-width: 460px; }
+#top-right { top: 14px; right: 14px; text-align: center; }
+#bottom-right { bottom: 14px; right: 14px; text-align: right; min-width: 220px; }
+.stars { font-size: 26px; letter-spacing: 4px; color: #ffd166; text-shadow: 0 0 8px rgba(255, 209, 102, 0.6); }
+.stars.wanted-0 { color: #8fa3b0; text-shadow: none; }
+.stars.wanted-4, .stars.wanted-5 { color: #ff4444; animation: pulse 0.7s infinite alternate; }
+@keyframes pulse { from { opacity: 1; } to { opacity: 0.55; } }
+.label { font-size: 11px; letter-spacing: 2px; color: #ffb36b; font-weight: bold; }
+#cash-value { font-size: 24px; font-weight: bold; color: #7be495; }
+#mission-line { margin-top: 6px; font-size: 14px; line-height: 1.35; }
+#mission-count { color: #ffd166; font-weight: bold; }
+#mission-progress { font-size: 12px; color: #ffd166; margin-top: 2px; min-height: 15px; }
+#radio-line { margin-top: 4px; font-size: 12px; color: #cfe0e8; }
+.hint { color: #8fa3b0; font-size: 11px; }
+#minimap { border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.25); display: block; }
+.compass { margin-top: 6px; font-size: 16px; font-weight: bold; color: #ffd166; transition: opacity 0.2s; }
+.legend { font-size: 11px; color: #cfe0e8; margin-top: 3px; }
+#speed-value { font-size: 40px; font-weight: bold; color: #ffffff; line-height: 1; }
+.unit { font-size: 14px; color: #ffb36b; }
+#health-line { font-size: 13px; margin-top: 4px; color: #cfe0e8; }
+.car-health { margin-top: 6px; }
+.car-health .bar { width: 180px; height: 10px; background: #33414f; border-radius: 5px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 6px; }
+.bar-fill { height: 100%; width: 100%; background: linear-gradient(90deg, #7be495, #ffd166, #ff6b35); }
+.controls-hint { font-size: 11px; color: #8fa3b0; margin-top: 8px; line-height: 1.5; }
+.flash { position: absolute; top: 22%; left: 50%; transform: translateX(-50%); font-size: 34px; font-weight: bold; color: #ffd166; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); opacity: 0; transition: opacity 0.3s; text-align: center; white-space: nowrap; }
+.flash.show { opacity: 1; }
+.toast { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); background: rgba(16, 28, 40, 0.85); border: 1px solid rgba(255, 209, 102, 0.5); padding: 9px 18px; border-radius: 20px; font-size: 15px; opacity: 0; transition: opacity 0.3s; }
+.toast.show { opacity: 1; }
+.toast.bad { border-color: #ff4444; color: #ffb3b3; }
+.toast.good { border-color: #7be495; color: #c9f5d6; }
+#popups { position: absolute; top: 38%; left: 50%; transform: translateX(-50%); text-align: center; }
+.popup { font-size: 26px; font-weight: bold; color: #ffd166; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); margin-bottom: 4px; animation: popin 0.25s ease-out; }
+.popup.good { color: #7be495; }
+.popup.bad { color: #ff6b6b; }
+.popup.fade { opacity: 0; transition: opacity 0.5s; }
+@keyframes popin { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.card { position: fixed; top: 90px; left: 50%; transform: translateX(-50%); width: 480px; max-width: 90vw; background: rgba(16, 28, 40, 0.92); border: 1px solid #ffd166; border-radius: 12px; padding: 18px 22px; z-index: 8; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+.card.show { opacity: 1; }
+.briefing-title, .result-title { font-size: 24px; font-weight: bold; color: #ffd166; }
+.result-title.bad { color: #ff6b6b; }
+.result-title.good { color: #7be495; }
+.briefing-client, .result-job { font-size: 13px; color: #ffb36b; margin: 4px 0 8px; }
+.briefing-text, .result-detail { font-size: 15px; line-height: 1.5; color: #f5efe4; }
+.overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 10; background: linear-gradient(180deg, rgba(26, 20, 40, 0.55), rgba(10, 16, 28, 0.82)); }
+.overlay.show { display: flex; }
+.title-inner, .pause-inner, .results-inner { text-align: center; max-width: 640px; padding: 30px; background: rgba(16, 28, 40, 0.78); border: 1px solid rgba(255, 209, 102, 0.5); border-radius: 16px; }
+.kicker { letter-spacing: 4px; font-size: 13px; color: #ffb36b; }
+.title-inner h1 { font-size: 84px; letter-spacing: 10px; color: #ffd166; text-shadow: 0 4px 24px rgba(255, 140, 66, 0.6); line-height: 1; margin-top: 8px; }
+.title-inner h2 { font-size: 30px; letter-spacing: 8px; color: #ff8fa3; margin-top: 2px; }
+.tagline { font-size: 17px; margin-top: 12px; color: #f5efe4; }
+.story { font-size: 14px; line-height: 1.55; color: #cfe0e8; margin-top: 10px; }
+.title-buttons, .pause-buttons, .results-buttons { margin-top: 22px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.big-btn { pointer-events: auto; cursor: pointer; font-size: 17px; font-weight: bold; letter-spacing: 1px; padding: 12px 26px; border-radius: 8px; border: none; background: #ff8c42; color: #1a1210; }
+.big-btn:hover { background: #ffa25e; }
+.big-btn.secondary { background: #2a3a4a; color: #f5efe4; border: 1px solid #5a6b7a; }
+.big-btn.secondary:hover { background: #3a4a5c; }
+.title-controls { margin-top: 20px; font-size: 13px; line-height: 1.7; color: #cfe0e8; }
+.title-foot { margin-top: 14px; font-size: 11px; color: #8fa3b0; }
+.ghost-btn { margin-top: 14px; background: none; border: none; color: #5a6b7a; cursor: pointer; font-size: 12px; pointer-events: auto; }
+.pause-inner h2, .results-title { font-size: 40px; letter-spacing: 4px; color: #ffd166; }
+.results-sub { margin-top: 8px; font-size: 16px; color: #cfe0e8; }
+.shop { text-align: left; margin-top: 16px; }
+.shop h3 { font-size: 13px; letter-spacing: 2px; color: #ffb36b; margin: 12px 0 6px; }
+.shop-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 14px; }
+.shop-row button { cursor: pointer; padding: 6px 14px; border-radius: 6px; border: none; background: #ffd166; color: #1a1210; font-weight: bold; pointer-events: auto; }
+.shop-row button:disabled { background: #3a4a5c; color: #8fa3b0; }
+#garage-list { font-size: 13px; color: #cfe0e8; line-height: 1.5; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 22px; }
+.stat { background: rgba(255, 255, 255, 0.06); border-radius: 10px; padding: 12px 8px; }
+.stat-label { display: block; font-size: 11px; letter-spacing: 2px; color: #ffb36b; }
+.stat-value { display: block; font-size: 24px; font-weight: bold; margin-top: 4px; }

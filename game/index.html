@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLMAR: Sunset Getaway — an open-world crime game</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.min.js"
+  }
+}
+</script>
+</head>
+<body>
+<canvas id="game-canvas"></canvas>
+
+<div id="hud" class="hud">
+  <div id="top-left" class="panel">
+    <div id="stars" class="stars wanted-0">☆☆☆☆☆</div>
+    <div id="cash-line"><span class="label">CASH</span> <span id="cash-value">$250</span></div>
+    <div id="mission-line"><span id="mission-count">Job 1 / 6</span> · <span id="objective-text">Press M — next job</span></div>
+    <div id="mission-progress" class="sub"></div>
+    <div id="radio-line"><span class="label">RADIO</span> <span id="radio-station">SOL 98.4 — Sunset FM</span> <span class="hint">[Q switch · N mute]</span></div>
+  </div>
+  <div id="top-right" class="panel">
+    <canvas id="minimap" width="220" height="220"></canvas>
+    <div id="compass-arrow" class="compass"><span id="compass-glyph">▲</span> <span id="compass-dist">0m</span></div>
+    <div class="legend">H safehouse · M marina · ! job · red police</div>
+  </div>
+  <div id="bottom-right" class="panel">
+    <div id="speed-line"><span id="speed-value">0</span><span class="unit"> km/h</span></div>
+    <div id="health-line">YOU <span id="health-value">100</span></div>
+    <div id="car-health" class="car-health" style="display:none"><span class="label">CAR</span><div class="bar"><div class="bar-fill"></div></div></div>
+    <div class="controls-hint">WASD drive/walk · E enter car · Space handbrake · Shift sprint · M job · P pause · H pay off heat</div>
+  </div>
+  <div id="flash" class="flash"></div>
+  <div id="toast" class="toast"></div>
+  <div id="popups"></div>
+</div>
+
+<div id="briefing" class="card">
+  <div class="briefing-title">Job</div>
+  <div class="briefing-client">From Marisol Vega</div>
+  <div class="briefing-text">Briefing text.</div>
+</div>
+
+<div id="mission-result" class="card">
+  <div class="result-title good">JOB COMPLETE</div>
+  <div class="result-job">Job</div>
+  <div class="result-detail">Detail.</div>
+</div>
+
+<div id="title-screen" class="overlay">
+  <div class="title-inner">
+    <div class="kicker">MARISOL VEGA PRESENTS</div>
+    <h1>SOLMAR</h1>
+    <h2>SUNSET GETAWAY</h2>
+    <p class="tagline">One driver. Six jobs. A whole city that wants you caught.</p>
+    <p class="story">You are the getaway driver Solmar calls when the job has to be clean. Take work from fixer Marisol Vega, drive the coast roads at golden hour, lose the police, and make the boat before sunrise.</p>
+    <div class="title-buttons">
+      <button id="new-game-btn" class="big-btn">NEW GAME</button>
+      <button id="continue-btn" class="big-btn secondary">CONTINUE</button>
+    </div>
+    <div class="title-controls">
+      WASD — drive / walk &nbsp;·&nbsp; E — enter &amp; steal cars &nbsp;·&nbsp; Space — handbrake<br>
+      Shift — sprint &nbsp;·&nbsp; M — take a job &nbsp;·&nbsp; P — pause &amp; garage &nbsp;·&nbsp; H — pay off heat at safehouse<br>
+      Q — radio station &nbsp;·&nbsp; N — mute
+    </div>
+    <div class="title-foot">An original game. Solmar, Marisol Vega and every car, street and face in it are invented here — no Rockstar material.</div>
+    <button id="shot-skip" class="ghost-btn">skip title</button>
+  </div>
+</div>
+
+<div id="pause-menu" class="overlay">
+  <div class="pause-inner">
+    <h2>PAUSED</h2>
+    <div class="shop">
+      <h3>SAFEHOUSE GARAGE — UPGRADES</h3>
+      <div id="shop-list"></div>
+      <h3>YOUR GARAGE</h3>
+      <div id="garage-list">Garage empty — park a stolen car at the safehouse to keep it.</div>
+    </div>
+    <div class="pause-buttons">
+      <button id="resume-btn" class="big-btn">RESUME</button>
+      <button id="payoff-btn" class="big-btn secondary">PAY OFF HEAT</button>
+      <button id="restart-btn" class="big-btn secondary">RESTART RUN</button>
+      <button id="quit-btn" class="big-btn secondary">QUIT TO TITLE</button>
+    </div>
+  </div>
+</div>
+
+<div id="results-screen" class="overlay">
+  <div class="results-inner">
+    <h2 class="results-title">SUNSET RUN COMPLETE</h2>
+    <p class="results-sub">You made the boat.</p>
+    <div class="stats-grid">
+      <div class="stat"><span class="stat-label">CASH</span><span id="stat-cash" class="stat-value">$0</span></div>
+      <div class="stat"><span class="stat-label">TOTAL EARNED</span><span id="stat-earned" class="stat-value">$0</span></div>
+      <div class="stat"><span class="stat-label">JOBS DONE</span><span id="stat-jobs" class="stat-value">0 / 6</span></div>
+      <div class="stat"><span class="stat-label">NEAR MISSES</span><span id="stat-near" class="stat-value">0</span></div>
+      <div class="stat"><span class="stat-label">CARS STOLEN</span><span id="stat-stolen" class="stat-value">0</span></div>
+      <div class="stat"><span class="stat-label">RUN TIME</span><span id="stat-time" class="stat-value">0:00</span></div>
+    </div>
+    <div class="results-buttons">
+      <button id="results-restart" class="big-btn">PLAY AGAIN [R]</button>
+      <button id="results-title" class="big-btn secondary">TITLE SCREEN</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
