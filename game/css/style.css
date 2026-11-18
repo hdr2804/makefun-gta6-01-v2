@@ -1,0 +1,139 @@
+/* SOLMAR: Sunset Getaway — HUD + menus. Golden-hour palette: deep dusk
+   panels, amber accents, white type. Every screen is DOM over the 3D view. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #1a1210; font-family: "Segoe UI", Arial, sans-serif; color: #fff; }
+#game, #game canvas { position: fixed; inset: 0; display: block; }
+button { font-family: inherit; cursor: pointer; }
+
+/* --- HUD ---------------------------------------------------------------- */
+#hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+#hud button { pointer-events: auto; }
+#wanted {
+  position: absolute; top: 14px; right: 16px;
+  font-size: 30px; letter-spacing: 4px; color: #ffd23a;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+#wanted.hot { color: #ff3b30; animation: pulse 0.7s infinite alternate; }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.12); } }
+#cash {
+  position: absolute; top: 52px; right: 18px;
+  font-size: 22px; font-weight: 700; color: #7dff9a;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.85);
+}
+#objectiveBar {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  max-width: 560px; text-align: center;
+  background: rgba(12, 10, 16, 0.62); border: 1px solid rgba(255,210,58,0.45);
+  border-radius: 8px; padding: 8px 18px;
+}
+#objective { font-size: 15px; font-weight: 600; color: #ffe9a8; }
+#timer { font-size: 18px; font-weight: 800; color: #ffd23a; margin-top: 2px; }
+#timer.urgent { color: #ff3b30; }
+#speedBox {
+  position: absolute; right: 18px; bottom: 18px; text-align: right;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+}
+#speed { font-size: 52px; font-weight: 800; line-height: 0.9; }
+#speedUnit { font-size: 14px; font-weight: 700; color: #ffb36b; margin-left: 6px; }
+#healthBox {
+  position: absolute; right: 18px; bottom: 86px; width: 170px;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #ddd;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+}
+#healthTrack { height: 8px; background: rgba(0,0,0,0.55); border-radius: 4px; margin-top: 3px; overflow: hidden; }
+#healthBar { height: 100%; width: 100%; background: #58d68d; border-radius: 4px; }
+#radioBox {
+  position: absolute; left: 18px; bottom: 18px;
+  background: rgba(12, 10, 16, 0.62); border-radius: 6px; padding: 6px 12px;
+  font-size: 13px; color: #ffb36b; font-weight: 600;
+}
+#minimap {
+  position: absolute; left: 16px; top: 14px;
+  border: 2px solid rgba(255,255,255,0.55); border-radius: 50%;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+  background: #2a2521;
+}
+#prompt {
+  position: absolute; left: 50%; bottom: 120px; transform: translateX(-50%);
+  background: rgba(12, 10, 16, 0.78); border: 1px solid #ffd23a;
+  border-radius: 8px; padding: 10px 20px; font-size: 15px; font-weight: 700;
+  color: #ffe9a8; white-space: nowrap;
+}
+#toast {
+  position: absolute; left: 50%; bottom: 170px; transform: translateX(-50%);
+  background: rgba(12, 10, 16, 0.8); border-radius: 8px; padding: 10px 22px;
+  font-size: 15px; font-weight: 600; opacity: 0; transition: opacity 0.25s;
+  max-width: 80%; text-align: center;
+}
+#toast.show { opacity: 1; }
+#toast.good { border: 1px solid #58d68d; color: #b9f5cd; }
+#toast.bad { border: 1px solid #ff3b30; color: #ffc4c0; }
+#toast.info { border: 1px solid #5dade2; color: #cfe8ff; }
+#btnPhone {
+  position: absolute; left: 16px; bottom: 210px;
+  background: rgba(20, 30, 20, 0.8); color: #b9f5cd; border: 1px solid #58d68d;
+  border-radius: 8px; padding: 8px 14px; font-size: 14px; font-weight: 700;
+}
+#muteBtn {
+  position: absolute; left: 16px; bottom: 256px;
+  background: rgba(12, 10, 16, 0.7); color: #ffd23a; border: 1px solid rgba(255,210,58,0.5);
+  border-radius: 8px; padding: 8px 12px; font-size: 14px; font-weight: 700;
+}
+
+/* --- Screens ------------------------------------------------------------ */
+.screen {
+  position: fixed; inset: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(180deg, rgba(20,8,4,0.25) 0%, rgba(20,8,4,0.72) 100%);
+}
+.panel {
+  width: min(560px, 92vw); max-height: 92vh; overflow-y: auto;
+  background: rgba(16, 10, 14, 0.88);
+  border: 1px solid rgba(255, 179, 107, 0.5); border-radius: 14px;
+  padding: 30px 34px; text-align: center;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.7);
+}
+.panel h1 {
+  font-size: 74px; font-weight: 900; letter-spacing: 8px; line-height: 0.95;
+  color: #ff7a3c;
+  text-shadow: 0 0 24px rgba(255,122,60,0.55), 0 4px 0 rgba(0,0,0,0.4);
+}
+.panel h2 { font-size: 30px; letter-spacing: 4px; color: #ffd23a; margin: 6px 0 10px; }
+.tagline { font-size: 15px; line-height: 1.5; color: #e8dcc8; margin-bottom: 14px; }
+#briefingText { font-size: 15px; line-height: 1.6; color: #f2e8d5; text-align: left; margin: 12px 0; }
+.payout { font-size: 18px; font-weight: 800; color: #7dff9a; margin-bottom: 8px; }
+.menu { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.menu button {
+  padding: 13px 20px; font-size: 16px; font-weight: 800; letter-spacing: 1px;
+  color: #1a1210; background: linear-gradient(180deg, #ffd23a, #ff9e2e);
+  border: none; border-radius: 9px;
+}
+.menu button:hover { filter: brightness(1.1); }
+.menu button:disabled { opacity: 0.45; cursor: default; filter: none; }
+#controls { margin-top: 20px; font-size: 13px; line-height: 1.7; color: #cbbfa8; }
+#controls b { color: #ffd23a; }
+.fine { font-size: 12.5px; line-height: 1.5; color: #9a8f7a; margin-top: 14px; }
+
+/* Phone / job list */
+.phone-panel { width: min(480px, 92vw); }
+.job {
+  display: block; width: 100%; text-align: left; margin: 8px 0;
+  padding: 12px 14px; border-radius: 9px; border: 1px solid #444;
+  background: rgba(255,255,255,0.06); color: #fff;
+}
+.job.next { border-color: #ffd23a; background: rgba(255,210,58,0.14); }
+.job.done { opacity: 0.55; border-color: #58d68d; }
+.job.locked { opacity: 0.4; }
+.job-title { display: block; font-size: 15px; font-weight: 800; }
+.job-meta { display: block; font-size: 12.5px; color: #cbbfa8; margin-top: 3px; }
+
+/* Results */
+#resultsStats { margin: 16px 0 6px; text-align: left; }
+.stat {
+  display: flex; justify-content: space-between; padding: 7px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.12); font-size: 14.5px;
+}
+.stat span { color: #cbbfa8; }
+.stat b { color: #fff; }
+#results.win h2 { color: #7dff9a; }
+#results.win .panel { border-color: rgba(125,255,154,0.6); }

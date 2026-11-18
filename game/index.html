@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLMAR: Sunset Getaway</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./css/style.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.min.js"
+  }
+}
+</script>
+</head>
+<body>
+<div id="game"></div>
+
+<!-- HUD -->
+<div id="hud" style="display:none">
+  <div id="wanted" title="Wanted level">☆☆☆☆☆</div>
+  <div id="cash">$250</div>
+  <div id="objectiveBar">
+    <div id="objective"></div>
+    <div id="timer"></div>
+  </div>
+  <div id="speedBox"><span id="speed">000</span><span id="speedUnit">MPH</span></div>
+  <div id="healthBox"><span id="health">CAR</span><div id="healthTrack"><div id="healthBar"></div></div></div>
+  <div id="radioBox"><span id="radioLabel">Radio off — press R</span></div>
+  <canvas id="minimap" width="180" height="180"></canvas>
+  <div id="prompt" style="display:none"></div>
+  <div id="toast" class="toast"></div>
+  <button id="btnPhone" title="Phone — jobs (P)">☎ Jobs</button>
+  <button id="muteBtn" title="Mute (M)">♪</button>
+</div>
+
+<!-- Title screen -->
+<div id="title" class="screen" style="display:none">
+  <div class="panel">
+    <h1>SOLMAR</h1>
+    <h2>Sunset Getaway</h2>
+    <p class="tagline">A getaway driver. A fixer named Marisol Vega. One sun-soaked city that never forgets a crime.</p>
+    <div class="menu">
+      <button id="btnNew">New Game</button>
+      <button id="btnContinue">Continue</button>
+    </div>
+    <div id="controls">
+      <p><b>W A S D</b> drive / walk &nbsp;·&nbsp; <b>Space</b> handbrake &nbsp;·&nbsp; <b>E</b> enter / exit car</p>
+      <p><b>Shift</b> sprint &nbsp;·&nbsp; <b>P</b> phone (jobs) &nbsp;·&nbsp; <b>R</b> radio &nbsp;·&nbsp; <b>Q</b> station</p>
+      <p><b>Esc</b> pause &nbsp;·&nbsp; <b>M</b> mute &nbsp;·&nbsp; mouse drag orbits the camera</p>
+      <p class="fine">Steal cars, lose the police, finish all six jobs — the last boat leaves from the marina.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Pause -->
+<div id="pause" class="screen" style="display:none">
+  <div class="panel">
+    <h2>Paused</h2>
+    <p class="tagline">Solmar waits. The police do not.</p>
+    <div class="menu">
+      <button id="btnResume">Resume</button>
+      <button id="btnRestartPause">Restart run</button>
+      <button id="btnQuitTitle">Quit to title</button>
+    </div>
+  </div>
+</div>
+
+<!-- Mission briefing -->
+<div id="briefing" class="screen" style="display:none">
+  <div class="panel">
+    <h2 id="briefingTitle">Job</h2>
+    <p id="briefingClient" class="tagline"></p>
+    <p id="briefingText"></p>
+    <p id="briefingPayout" class="payout"></p>
+    <div class="menu">
+      <button id="btnStartMission">Start job</button>
+      <button id="btnCloseBriefing">Not yet</button>
+    </div>
+  </div>
+</div>
+
+<!-- Phone / job list -->
+<div id="phone" class="screen" style="display:none">
+  <div class="panel phone-panel">
+    <h2>Marisol's Jobs</h2>
+    <div id="jobList"></div>
+    <p id="garageInfo" class="fine"></p>
+    <div class="menu">
+      <button id="btnClosePhone">Close phone</button>
+    </div>
+  </div>
+</div>
+
+<!-- Results -->
+<div id="results" class="screen" style="display:none">
+  <div class="panel">
+    <h2 id="resultsTitle">BUSTED</h2>
+    <p id="resultsSub" class="tagline"></p>
+    <div id="resultsStats"></div>
+    <div class="menu">
+      <button id="btnAgain">Play again</button>
+      <button id="btnMenu">Title screen</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
